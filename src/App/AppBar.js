@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { setPage } from "./redux/pageActions";
+import { setPage } from "../redux/page/pageActions";
 
 const Bar = styled.div`
   display: grid;
@@ -22,7 +22,7 @@ const ControlButtomElem = styled.div`
 `;
 
 const ControlButton = ({ name }) => {
-  const page = useSelector((state) => state.page);
+  const page = useSelector((state) => state.page.type);
   const dispatch = useDispatch();
 
   return (

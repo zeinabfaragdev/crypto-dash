@@ -4,3 +4,9 @@ export const setPage = (name) => {
     payload: name,
   };
 };
+
+export const confirmFavorites = () => {
+  return {
+    type: "CONFIRM_FAVORITES",
+  };
+};
