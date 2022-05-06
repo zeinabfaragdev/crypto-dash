@@ -3,10 +3,11 @@ import AppBar from "./AppBar";
 import Settings from "../Settings/Settings";
 import "./App.css";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCoinsAsync } from "../redux/coins/coinsActions";
 
 const App = () => {
+  const page = useSelector((state) => state.page.type);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCoinsAsync());
@@ -15,7 +16,7 @@ const App = () => {
   return (
     <AppLayout>
       <AppBar />
-      <Settings />
+      {page === "settings" && <Settings />}
     </AppLayout>
   );
 };
