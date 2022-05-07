@@ -1,14 +1,18 @@
-import { SelectableTile } from "../Shared/Tile";
+import { SelectableTile, DeletableTile } from "../Shared/Tile";
 import CoinHeaderGrid from "./CoinHeaderGrid";
 import CoinImage from "../Shared/CoinImage";
 
-const CoinTile = ({ coin }) => {
-  console.log(coin);
+const CoinTile = ({ coin, topSection }) => {
+  const TileClass = topSection ? DeletableTile : SelectableTile;
   return (
-    <SelectableTile>
-      <CoinHeaderGrid name={coin.CoinName} symbol={coin.Symbol} />
+    <TileClass>
+      <CoinHeaderGrid
+        topSection={topSection}
+        name={coin.CoinName}
+        symbol={coin.Symbol}
+      />
       <CoinImage symbol={coin.Symbol} imageUrl={coin.ImageUrl} />
-    </SelectableTile>
+    </TileClass>
   );
 };
 

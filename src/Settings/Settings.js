@@ -7,6 +7,7 @@ const Settings = () => {
   return (
     <>
       <WelcomeMessage />
+      <CoinGrid topSection />
       <ConfirmButton />
       <CoinGrid />
     </>
