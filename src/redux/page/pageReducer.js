@@ -1,12 +1,7 @@
-const savedSettings = () => {
-  let cryptoDashData = JSON.parse(localStorage.getItem("cryptoDash"));
-
-  return cryptoDashData
-    ? cryptoDashData
-    : { type: "settings", firstVisit: true };
-};
-
-const pageReducer = (state = savedSettings(), action) => {
+const pageReducer = (
+  state = { type: "settings", firstVisit: true, loading: true },
+  action
+) => {
   switch (action.type) {
     case "SET_PAGE":
       return {
@@ -14,15 +9,17 @@ const pageReducer = (state = savedSettings(), action) => {
         type: action.payload,
       };
     case "CONFIRM_FAVORITES":
-      let newState = {
+      return {
         ...state,
         firstVisit: false,
         type: "dashboard",
       };
 
-      localStorage.setItem("cryptoDash", JSON.stringify(newState));
-
-      return newState;
+    case "SET_PAGE_LOADING":
+      return {
+        ...state,
+        loading: false,
+      };
 
     default:
       return state;

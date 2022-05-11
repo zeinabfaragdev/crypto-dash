@@ -1,11 +1,7 @@
-const coinsReducer = (state = { loading: true, list: {} }, action) => {
+const coinsReducer = (state = {}, action) => {
   switch (action.type) {
     case "SET_COINS":
-      return {
-        ...state,
-        loading: false,
-        list: action.payload,
-      };
+      return action.payload;
     default:
       return state;
   }

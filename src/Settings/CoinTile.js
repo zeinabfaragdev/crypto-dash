@@ -1,11 +1,33 @@
-import { SelectableTile, DeletableTile } from "../Shared/Tile";
+import { SelectableTile, DeletableTile, DisabledTile } from "../Shared/Tile";
 import CoinHeaderGrid from "./CoinHeaderGrid";
 import CoinImage from "../Shared/CoinImage";
+import {
+  addFavoriteCoin,
+  removeCoin,
+} from "../redux/favorites/favoritesActions";
+import { useDispatch, useSelector } from "react-redux";
 
-const CoinTile = ({ coin, topSection }) => {
-  const TileClass = topSection ? DeletableTile : SelectableTile;
+const CoinTile = ({ coin, coinKey, topSection }) => {
+  const favorites = useSelector((state) => state.favorites);
+
+  let inFavorites = favorites.includes(coinKey);
+
+  const TileClass = topSection
+    ? DeletableTile
+    : inFavorites
+    ? DisabledTile
+    : SelectableTile;
+
+  const dispatch = useDispatch();
+
+  const clickCoinHandler = (coinKey, topSection) => {
+    topSection
+      ? dispatch(removeCoin(coinKey))
+      : dispatch(addFavoriteCoin(coinKey));
+  };
+
   return (
-    <TileClass>
+    <TileClass onClick={() => clickCoinHandler(coinKey, topSection)}>
       <CoinHeaderGrid
         topSection={topSection}
         name={coin.CoinName}

@@ -8,6 +8,7 @@ import { getCoinsAsync } from "../redux/coins/coinsActions";
 
 const App = () => {
   const page = useSelector((state) => state.page.type);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCoinsAsync());

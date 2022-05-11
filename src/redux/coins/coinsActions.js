@@ -1,5 +1,6 @@
-const cc = require("cryptocompare");
+import { setPageLoading } from "../page/pageActions";
 
+const cc = require("cryptocompare");
 cc.setApiKey(process.env.REACT_APP_CRYPTO_KEY);
 
 const setCoins = (coins) => {
@@ -14,5 +15,6 @@ export const getCoinsAsync = () => {
     let coinList = (await cc.coinList()).Data;
 
     dispatch(setCoins(coinList));
+    dispatch(setPageLoading());
   };
 };

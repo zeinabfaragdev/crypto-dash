@@ -2,7 +2,7 @@ import Spinner from "./Spinner";
 import { useSelector } from "react-redux";
 
 const withSpinner = (WrappedComponent) => (props) => {
-  const isLoading = useSelector((state) => state.coins.loading);
+  const isLoading = useSelector((state) => state.page.loading);
   return isLoading ? (
     <div>
       <Spinner />
