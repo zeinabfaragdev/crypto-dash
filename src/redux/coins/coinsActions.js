@@ -10,6 +10,13 @@ const setCoins = (coins) => {
   };
 };
 
+export const setFilteredCoins = (coins) => {
+  return {
+    type: "FILTER_COINS",
+    payload: coins,
+  };
+};
+
 export const getCoinsAsync = () => {
   return async (dispatch) => {
     let coinList = (await cc.coinList()).Data;

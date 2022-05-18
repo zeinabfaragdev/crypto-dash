@@ -1,7 +1,9 @@
 const coinsReducer = (state = {}, action) => {
   switch (action.type) {
     case "SET_COINS":
-      return action.payload;
+      return { ...state, list: action.payload };
+    case "FILTER_COINS":
+      return { ...state, filtered: action.payload };
     default:
       return state;
   }

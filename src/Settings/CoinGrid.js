@@ -9,24 +9,35 @@ const CoinGridStyled = styled.div`
   margin-top: 40px;
 `;
 
-const getCoinsDisplay = (coins, topSection, favorites) => {
-  return topSection ? favorites : Object.keys(coins).slice(0, 100);
+const getLowerSectionCoins = (coins, filteredCoins) => {
+  return (
+    (filteredCoins && Object.keys(filteredCoins)) ||
+    Object.keys(coins).slice(0, 100)
+  );
+};
+
+const getCoinsDisplay = (coins, filteredCoins, topSection, favorites) => {
+  return topSection ? favorites : getLowerSectionCoins(coins, filteredCoins);
 };
 
 const CoinGrid = ({ topSection }) => {
-  const coins = useSelector((state) => state.coins);
+  const coins = useSelector((state) => state.coins.list);
+  const filteredCoins = useSelector((state) => state.coins.filtered);
+
   const favorites = useSelector((state) => state.favorites);
 
   return (
     <CoinGridStyled>
-      {getCoinsDisplay(coins, topSection, favorites).map((coinKey) => (
-        <CoinTile
-          topSection={topSection}
-          key={coinKey}
-          coinKey={coinKey}
-          coin={coins[coinKey]}
-        />
-      ))}
+      {getCoinsDisplay(coins, filteredCoins, topSection, favorites).map(
+        (coinKey) => (
+          <CoinTile
+            topSection={topSection}
+            key={coinKey}
+            coinKey={coinKey}
+            coin={coins[coinKey]}
+          />
+        )
+      )}
     </CoinGridStyled>
   );
 };
