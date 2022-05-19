@@ -10,6 +10,13 @@ const setCoins = (coins) => {
   };
 };
 
+const setPrices = (prices) => {
+  return {
+    type: "SET_PRICES",
+    payload: prices,
+  };
+};
+
 export const setFilteredCoins = (coins) => {
   return {
     type: "FILTER_COINS",
@@ -23,5 +30,22 @@ export const getCoinsAsync = () => {
 
     dispatch(setCoins(coinList));
     dispatch(setPageLoading());
+  };
+};
+
+export const getCoinPricesAsync = () => {
+  return async (dispatch, getState) => {
+    let favorites = getState().favorites;
+    let prices = [];
+
+    for (const fav of favorites) {
+      try {
+        let priceData = await cc.priceFull(fav, "USD");
+        prices.push(priceData);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    dispatch(setPrices(prices));
   };
 };
