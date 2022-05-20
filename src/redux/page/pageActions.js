@@ -1,3 +1,5 @@
+import { getCoinPricesAsync } from "../coins/coinsActions";
+
 export const setPage = (name) => {
   return {
     type: "SET_PAGE",
@@ -5,14 +7,15 @@ export const setPage = (name) => {
   };
 };
 
-export const setPageLoading = () => {
+const confirmPageFavorites = () => {
   return {
-    type: "SET_PAGE_LOADING",
+    type: "CONFIRM_FAVORITES",
   };
 };
 
 export const confirmFavorites = () => {
-  return {
-    type: "CONFIRM_FAVORITES",
+  return (dispatch) => {
+    dispatch(confirmPageFavorites());
+    dispatch(getCoinPricesAsync());
   };
 };

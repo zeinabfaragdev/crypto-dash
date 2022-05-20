@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { DeletableTile } from "../Shared/Tile";
 
-const CoinHeaderGridStyled = styled.div`
+export const CoinHeaderGridStyled = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 `;

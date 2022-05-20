@@ -1,5 +1,5 @@
 const pageReducer = (
-  state = { type: "settings", firstVisit: true, loading: true },
+  state = { type: "settings", firstVisit: true },
   action
 ) => {
   switch (action.type) {
@@ -13,12 +13,6 @@ const pageReducer = (
         ...state,
         firstVisit: false,
         type: "dashboard",
-      };
-
-    case "SET_PAGE_LOADING":
-      return {
-        ...state,
-        loading: false,
       };
 
     default:

@@ -7,7 +7,7 @@ import thunk from "redux-thunk";
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["coins", "page"],
+  blacklist: ["coins"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
