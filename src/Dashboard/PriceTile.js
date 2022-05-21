@@ -1,7 +1,8 @@
 import styled, { css } from "styled-components";
 import { SelectableTile } from "../Shared/Tile";
-import { fontSize3, fontSizeBig } from "../Shared/Styles";
+import { fontSize3, fontSizeBig, greenBoxShadow } from "../Shared/Styles";
 import { CoinHeaderGridStyled } from "../Settings/CoinHeaderGrid";
+import { useSelector } from "react-redux";
 
 const PriceTileStyled = styled(SelectableTile)`
   ${(props) =>
@@ -12,6 +13,12 @@ const PriceTileStyled = styled(SelectableTile)`
       grid-gap: 5px;
       grid-template-columns: repeat(3, 1fr);
       justify-items: right;
+    `}
+  ${(props) =>
+    props.currentFav &&
+    css`
+      ${greenBoxShadow};
+      pointer-events: none;
     `}
 `;
 
@@ -36,8 +43,8 @@ const numberFormat = (number) => {
   return +(number + "").slice(0, 7);
 };
 
-const PriceTileCompact = ({ priceData, changePct, sym }) => (
-  <PriceTileStyled compact>
+const PriceTileCompact = ({ priceData, changePct, sym, currentFav }) => (
+  <PriceTileStyled compact currentFav={currentFav}>
     <JustifyLeft>{sym}</JustifyLeft>
     <ChangePercent red={changePct < 0}>{numberFormat(changePct)}</ChangePercent>
     <div>${numberFormat(priceData)}</div>
@@ -49,8 +56,10 @@ const PriceTile = ({ price, index }) => {
   let priceData = price[sym].USD.PRICE;
   let changePct = price[sym].USD.CHANGEPCT24HOUR;
 
+  const currentFav = useSelector((state) => state.coins.currentFav);
+
   return index < 5 ? (
-    <PriceTileStyled>
+    <PriceTileStyled currentFav={currentFav === sym}>
       <CoinHeaderGridStyled>
         <div>{sym}</div>
         <ChangePercent red={changePct < 0}>
@@ -60,7 +69,12 @@ const PriceTile = ({ price, index }) => {
       <TickerPrice>${numberFormat(priceData)}</TickerPrice>
     </PriceTileStyled>
   ) : (
-    <PriceTileCompact priceData={priceData} changePct={changePct} sym={sym} />
+    <PriceTileCompact
+      currentFav={currentFav === sym}
+      priceData={priceData}
+      changePct={changePct}
+      sym={sym}
+    />
   );
 };
 

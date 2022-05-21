@@ -1,16 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./rootReducer";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import { persistStore } from "redux-persist";
 import thunk from "redux-thunk";
 
-const persistConfig = {
-  key: "root",
-  storage,
-  blacklist: ["coins"],
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-export let store = createStore(persistedReducer, applyMiddleware(thunk));
+export let store = createStore(rootReducer, applyMiddleware(thunk));
 export let persistor = persistStore(store);

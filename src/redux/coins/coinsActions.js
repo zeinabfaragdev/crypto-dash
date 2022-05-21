@@ -15,6 +15,13 @@ const setPrices = (prices) => {
   };
 };
 
+const setCurrentFav = (fav) => {
+  return {
+    type: "SET_CURRENT_FAV",
+    payload: fav,
+  };
+};
+
 export const setFilteredCoins = (coins) => {
   return {
     type: "FILTER_COINS",
@@ -34,15 +41,21 @@ export const getCoinPricesAsync = () => {
   return async (dispatch, getState) => {
     let favorites = getState().favorites;
     let prices = [];
+    let currentFavIdx = null;
 
-    for (const fav of favorites) {
+    for (const [i, fav] of favorites.entries()) {
       try {
         let priceData = await cc.priceFull(fav, "USD");
         prices.push(priceData);
+
+        if (currentFavIdx === null) {
+          currentFavIdx = i;
+        }
       } catch (err) {
         console.log(err);
       }
     }
     dispatch(setPrices(prices));
+    dispatch(setCurrentFav(favorites[currentFavIdx]));
   };
 };
