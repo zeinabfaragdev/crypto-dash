@@ -2,8 +2,8 @@ import styled, { css } from "styled-components";
 import { SelectableTile } from "../Shared/Tile";
 import { fontSize3, fontSizeBig, greenBoxShadow } from "../Shared/Styles";
 import { CoinHeaderGridStyled } from "../Settings/CoinHeaderGrid";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { setCurrentFav } from "../redux/coins/coinsActions";
 const PriceTileStyled = styled(SelectableTile)`
   ${(props) =>
     props.compact &&
@@ -43,11 +43,35 @@ const numberFormat = (number) => {
   return +(number + "").slice(0, 7);
 };
 
-const PriceTileCompact = ({ priceData, changePct, sym, currentFav }) => (
-  <PriceTileStyled compact currentFav={currentFav}>
+const PriceTileCompact = ({
+  priceData,
+  changePct,
+  sym,
+  currentFav,
+  handlePriceClick,
+}) => (
+  <PriceTileStyled compact currentFav={currentFav} onClick={handlePriceClick}>
     <JustifyLeft>{sym}</JustifyLeft>
     <ChangePercent red={changePct < 0}>{numberFormat(changePct)}</ChangePercent>
     <div>${numberFormat(priceData)}</div>
+  </PriceTileStyled>
+);
+
+const PriceTileFull = ({
+  currentFav,
+  changePct,
+  priceData,
+  sym,
+  handlePriceClick,
+}) => (
+  <PriceTileStyled currentFav={currentFav} onClick={handlePriceClick}>
+    <CoinHeaderGridStyled>
+      <div>{sym}</div>
+      <ChangePercent red={changePct < 0}>
+        {numberFormat(changePct)}
+      </ChangePercent>
+    </CoinHeaderGridStyled>
+    <TickerPrice>${numberFormat(priceData)}</TickerPrice>
   </PriceTileStyled>
 );
 
@@ -56,24 +80,21 @@ const PriceTile = ({ price, index }) => {
   let priceData = price[sym].USD.PRICE;
   let changePct = price[sym].USD.CHANGEPCT24HOUR;
 
+  const TileClass = index < 5 ? PriceTileFull : PriceTileCompact;
   const currentFav = useSelector((state) => state.coins.currentFav);
+  const dispatch = useDispatch();
 
-  return index < 5 ? (
-    <PriceTileStyled currentFav={currentFav === sym}>
-      <CoinHeaderGridStyled>
-        <div>{sym}</div>
-        <ChangePercent red={changePct < 0}>
-          {numberFormat(changePct)}
-        </ChangePercent>
-      </CoinHeaderGridStyled>
-      <TickerPrice>${numberFormat(priceData)}</TickerPrice>
-    </PriceTileStyled>
-  ) : (
-    <PriceTileCompact
+  const handlePriceClick = () => {
+    dispatch(setCurrentFav(sym));
+  };
+  return (
+    <TileClass
       currentFav={currentFav === sym}
       priceData={priceData}
       changePct={changePct}
       sym={sym}
+      style={{ color: "red" }}
+      handlePriceClick={handlePriceClick}
     />
   );
 };
