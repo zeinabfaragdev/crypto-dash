@@ -1,5 +1,5 @@
 const pageReducer = (
-  state = { type: "settings", firstVisit: true },
+  state = { type: "settings", firstVisit: true, theme: "dark" },
   action
 ) => {
   switch (action.type) {
@@ -7,6 +7,12 @@ const pageReducer = (
       return {
         ...state,
         type: action.payload,
+      };
+
+    case "SET_THEME":
+      return {
+        ...state,
+        theme: action.payload,
       };
     case "CONFIRM_FAVORITES":
       return {

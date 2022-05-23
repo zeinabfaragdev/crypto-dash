@@ -52,6 +52,20 @@ export const getCoinsAsync = () => {
   };
 };
 
+const setTimeIntervalAction = (timeInt) => {
+  return {
+    type: "SET_TIME_INTERVAL",
+    payload: timeInt,
+  };
+};
+
+export const setTimeInterval = (timeInt) => {
+  return async (dispatch) => {
+    dispatch(setTimeIntervalAction(timeInt));
+    dispatch(getPriceHistoryAsync());
+  };
+};
+
 export const getCoinPricesAsync = () => {
   return async (dispatch, getState) => {
     dispatch(setPriceLoading());
@@ -73,8 +87,9 @@ export const getCoinPricesAsync = () => {
         console.log(err);
       }
     }
-    dispatch(setPrices(prices));
     dispatch(setCurrentFav(favorites[currentFavIdx]));
+    dispatch(setPrices(prices));
+    dispatch(getPriceHistoryAsync());
   };
 };
 
@@ -83,6 +98,7 @@ export const getPriceHistoryAsync = () => {
     dispatch(setPriceHistory(null));
 
     let currentFav = getState().coins.currentFav;
+    let timeInterval = getState().coins.timeInterval;
 
     if (!currentFav) {
       return;
@@ -94,7 +110,9 @@ export const getPriceHistoryAsync = () => {
         let res = await cc.priceHistorical(
           currentFav,
           ["USD"],
-          moment().subtract({ months: i }).toDate()
+          moment()
+            .subtract({ [timeInterval]: i })
+            .toDate()
         );
         results.push(res);
       } catch (err) {
@@ -107,7 +125,7 @@ export const getPriceHistoryAsync = () => {
         name: currentFav,
         data: results.map((res, i) => [
           moment()
-            .subtract({ months: 10 - i })
+            .subtract({ [timeInterval]: 10 - i })
             .valueOf(),
           res.USD,
         ]),

@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { setPage } from "../redux/page/pageActions";
+import { subtleTextShadow } from "../Shared/Styles";
 
 const Bar = styled.div`
   display: grid;
@@ -17,7 +18,7 @@ const ControlButtomElem = styled.div`
   ${(props) =>
     props.active &&
     css`
-      text-shadow: 0px 0px 60px #03ff03;
+      ${subtleTextShadow};
     `}
 `;
 

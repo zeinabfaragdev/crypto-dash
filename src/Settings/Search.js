@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { setFilteredCoins } from "../redux/coins/coinsActions";
-import { backgroundColor2, fontSize2 } from "../Shared/Styles";
+import { color2, fontSize2 } from "../Shared/Styles";
 import _ from "lodash";
 import fuzzy from "fuzzy";
 
@@ -10,7 +10,7 @@ const SearchGrid = styled.div`
   grid-template-columns: 200px 1fr;
 `;
 const SearchInput = styled.input`
-  ${backgroundColor2};
+  background-color: ${color2};
   color: #1163c9;
   ${fontSize2};
   border: 1px solid;

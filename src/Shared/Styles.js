@@ -1,25 +1,49 @@
-const theme = "dark";
-//const theme = 'light';
-export const lightTheme = theme === "light";
+import theme from "styled-theming";
+import { css } from "styled-components";
 
-export const color = lightTheme ? "white" : "#061a44";
-export const color2 = lightTheme ? "white" : "#010e2c";
-export const color3 = lightTheme ? "#09f010" : "#42ff3a";
+const defaultTheme = "Dark";
 
-if (lightTheme) {
-  document.body.style.background = "#e1eaee";
-  document.body.style.color = "#061a44";
-}
+export const lightTheme = defaultTheme === "Light";
 
-export const lightBlueBackground = `background-color: ${color}`;
-export const backgroundColor2 = `background-color: ${color2};`;
-export const greenBackgroundColor = `background-color: ${color3};`;
+export const bodyStyles = theme("mode", {
+  light: css`
+    background-color: #e1eaee;
+    color: #061a44;
+  `,
+  dark: css`
+    background-color: #010e2c;
+    color: white;
+  `,
+});
+
+export const color = theme("mode", {
+  light: "white",
+  dark: "#061a44",
+});
+
+export const color2 = theme("mode", {
+  light: "white",
+  dark: "#010e2c",
+});
+
+export const color3 = theme("mode", {
+  light: "#09f010",
+  dark: "#42ff3a",
+});
 
 export const fontColorGreen = `color: #03A9F4`;
 export const fontColorWhite = `color: white`;
-export const subtleBoxShadow = `box-shadow: 0px 0px 5px 1px ${
-  lightTheme ? "#a9b6ff" : "#121d5b"
-}`;
+
+export const subtleBoxShadow = theme("mode", {
+  light: "box-shadow: 0px 0px 5px 1px #a9b6ff",
+  dark: "box-shadow: 0px 0px 5px 1px #121d5b",
+});
+
+export const subtleTextShadow = theme("mode", {
+  light: "text-shadow: 0px 0px 25px #061a44",
+  dark: "text-shadow: 0px 0px 30px #03ff03",
+});
+
 export const greenBoxShadow = `box-shadow: 0px 0px 4px 2px #5fff17`;
 export const redBoxShadow = `box-shadow: 0px 0px 2px 2px #e41111`;
 

@@ -1,5 +1,5 @@
 const coinsReducer = (
-  state = { priceLoading: true, coinLoading: true },
+  state = { priceLoading: true, coinLoading: true, timeInterval: "months" },
   action
 ) => {
   switch (action.type) {
@@ -9,6 +9,8 @@ const coinsReducer = (
       return { ...state, prices: action.payload, priceLoading: false };
     case "SET_PRICE_LOADING":
       return { ...state, priceLoading: true };
+    case "SET_TIME_INTERVAL":
+      return { ...state, timeInterval: action.payload };
     case "SET_PRICE_HISTORY":
       return { ...state, priceHistory: action.payload };
     case "SET_CURRENT_FAV":

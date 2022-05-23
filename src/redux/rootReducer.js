@@ -14,7 +14,7 @@ const persistConfig = {
 const coinsConfig = {
   key: "coins",
   storage,
-  whitelist: ["currentFav"],
+  whitelist: ["currentFav", "timeInterval"],
 };
 
 const rootReducer = combineReducers({

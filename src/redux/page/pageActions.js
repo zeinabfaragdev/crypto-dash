@@ -7,6 +7,13 @@ export const setPage = (name) => {
   };
 };
 
+export const setTheme = (theme) => {
+  return {
+    type: "SET_THEME",
+    payload: theme,
+  };
+};
+
 const confirmPageFavorites = () => {
   return {
     type: "CONFIRM_FAVORITES",
