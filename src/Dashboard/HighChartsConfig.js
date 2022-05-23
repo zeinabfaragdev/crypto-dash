@@ -1,4 +1,4 @@
-const HighchartsConfig = () => {
+const HighchartsConfig = (priceHistory) => {
   return {
     title: {
       text: "",
@@ -13,6 +13,7 @@ const HighchartsConfig = () => {
       accessibility: {
         rangeDescription: "Range: 2010 to 2017",
       },
+      type: "datetime",
     },
 
     legend: {
@@ -30,12 +31,7 @@ const HighchartsConfig = () => {
       },
     },
 
-    series: [
-      {
-        name: "Installation",
-        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175],
-      },
-    ],
+    series: priceHistory,
 
     responsive: {
       rules: [

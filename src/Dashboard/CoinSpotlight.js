@@ -10,6 +10,7 @@ const CoinSpotlight = () => {
   const currentFav = useSelector((state) => state.coins.currentFav);
   const coins = useSelector((state) => state.coins.list);
   const coin = coins[currentFav];
+
   return (
     <Tile>
       <SpotlightName> {coin.CoinName}</SpotlightName>

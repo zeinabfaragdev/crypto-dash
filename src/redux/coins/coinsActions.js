@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const cc = require("cryptocompare");
 cc.setApiKey(process.env.REACT_APP_CRYPTO_KEY);
 
@@ -12,6 +14,19 @@ const setPrices = (prices) => {
   return {
     type: "SET_PRICES",
     payload: prices,
+  };
+};
+
+const setPriceLoading = () => {
+  return {
+    type: "SET_PRICE_LOADING",
+  };
+};
+
+const setPriceHistory = (history) => {
+  return {
+    type: "SET_PRICE_HISTORY",
+    payload: history,
   };
 };
 
@@ -39,6 +54,8 @@ export const getCoinsAsync = () => {
 
 export const getCoinPricesAsync = () => {
   return async (dispatch, getState) => {
+    dispatch(setPriceLoading());
+
     let favorites = getState().favorites;
     let prices = [];
     let currentFav = getState().coins.currentFav;
@@ -58,5 +75,44 @@ export const getCoinPricesAsync = () => {
     }
     dispatch(setPrices(prices));
     dispatch(setCurrentFav(favorites[currentFavIdx]));
+  };
+};
+
+export const getPriceHistoryAsync = () => {
+  return async (dispatch, getState) => {
+    dispatch(setPriceHistory(null));
+
+    let currentFav = getState().coins.currentFav;
+
+    if (!currentFav) {
+      return;
+    }
+
+    let results = [];
+    for (let i = 10; i > 0; i--) {
+      try {
+        let res = await cc.priceHistorical(
+          currentFav,
+          ["USD"],
+          moment().subtract({ months: i }).toDate()
+        );
+        results.push(res);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    let historical = [
+      {
+        name: currentFav,
+        data: results.map((res, i) => [
+          moment()
+            .subtract({ months: 10 - i })
+            .valueOf(),
+          res.USD,
+        ]),
+      },
+    ];
+    dispatch(setPriceHistory(historical));
   };
 };

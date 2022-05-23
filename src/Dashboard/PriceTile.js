@@ -3,7 +3,11 @@ import { SelectableTile } from "../Shared/Tile";
 import { fontSize3, fontSizeBig, greenBoxShadow } from "../Shared/Styles";
 import { CoinHeaderGridStyled } from "../Settings/CoinHeaderGrid";
 import { useSelector, useDispatch } from "react-redux";
-import { setCurrentFav } from "../redux/coins/coinsActions";
+import {
+  getPriceHistoryAsync,
+  setCurrentFav,
+} from "../redux/coins/coinsActions";
+
 const PriceTileStyled = styled(SelectableTile)`
   ${(props) =>
     props.compact &&
@@ -52,7 +56,9 @@ const PriceTileCompact = ({
 }) => (
   <PriceTileStyled compact currentFav={currentFav} onClick={handlePriceClick}>
     <JustifyLeft>{sym}</JustifyLeft>
-    <ChangePercent red={changePct < 0}>{numberFormat(changePct)}</ChangePercent>
+    <ChangePercent red={changePct < 0}>
+      {numberFormat(changePct)}%
+    </ChangePercent>
     <div>${numberFormat(priceData)}</div>
   </PriceTileStyled>
 );
@@ -68,7 +74,7 @@ const PriceTileFull = ({
     <CoinHeaderGridStyled>
       <div>{sym}</div>
       <ChangePercent red={changePct < 0}>
-        {numberFormat(changePct)}
+        {numberFormat(changePct)}%
       </ChangePercent>
     </CoinHeaderGridStyled>
     <TickerPrice>${numberFormat(priceData)}</TickerPrice>
@@ -86,6 +92,7 @@ const PriceTile = ({ price, index }) => {
 
   const handlePriceClick = () => {
     dispatch(setCurrentFav(sym));
+    dispatch(getPriceHistoryAsync());
   };
   return (
     <TileClass
