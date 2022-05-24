@@ -22,6 +22,7 @@ const Toggle = ({ theme }) => {
 
   const GlobalStyle = createGlobalStyle`
       body {
+        font-family: "Do Hyeon", sans-serif;
         ${bodyStyles}
       }`;
 

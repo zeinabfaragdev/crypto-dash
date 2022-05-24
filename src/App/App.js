@@ -2,7 +2,6 @@ import AppLayout from "./AppLayout";
 import AppBar from "./AppBar";
 import Settings from "../Settings/Settings";
 import Dashboard from "../Dashboard/Dashboard";
-import "./App.css";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCoinsAsync, getCoinPricesAsync } from "../redux/coins/coinsActions";
